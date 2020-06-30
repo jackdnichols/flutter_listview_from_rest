@@ -12,6 +12,14 @@ class Job {
 
   Job({this.id, this.position, this.company, this.description});
 
+
+  /*----------------------------------------------------------------------------
+    Here, we are creating a factory method called Job.fromJson whose objective
+    is to simply deserialize the json and return a single object of type Job.
+
+    The factory keyword is used when implementing a constructor that doesn’t
+    always create a new instance of its class.
+  ----------------------------------------------------------------------------*/
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       id: json['id'],
@@ -39,6 +47,7 @@ class JobsListView extends StatelessWidget {
     );
   }
 
+  // Call the web service
   Future<List<Job>> _fetchJobs() async {
 
     final jobsListAPIUrl = 'https://mock-json-service.glitch.me/';
@@ -61,15 +70,32 @@ class JobsListView extends StatelessWidget {
   }
 
   ListTile _tile(String title, String subtitle, IconData icon) => ListTile(
-    title: Text(title,
+    title: Text(
+        title,
         style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 20,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
         )),
-    subtitle: Text(subtitle),
-    leading: Icon(
+
+    subtitle: Text(
+      subtitle,
+      style: TextStyle(
+        fontSize: 22,
+        //color: Colors.green,
+        ),
+    ),
+    leading: Image.network('https://img.icons8.com/officel/2x/person-male.png')
+
+    /*
+    leading: CircleAvatar(
+      backgroundImage: NetworkImage('https://img.icons8.com/officel/2x/person-male.png'),
+    ),
+    */
+ 
+    /*
+    Icon(
       icon,
       color: Colors.blue[500],
-    ),
+    ),*/
   );
 }
