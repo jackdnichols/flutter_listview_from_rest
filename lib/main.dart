@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //Custom widgets
-import 'JobsListView.dart';
+import 'RestaurantListView.dart';
 
 void main() {
   runApp(App());
@@ -14,10 +14,10 @@ class App extends StatelessWidget {
       title: 'Job Portal',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Job Portal'),
+          title: Text('Restaurants'),
         ),
         body: Center(
-            child: JobsListView()
+            child: RestaurantListView()
         ),
       ),
     );
