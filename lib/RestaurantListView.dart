@@ -3,18 +3,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ARestaurant {
-  final int Restaurant_Id;
-  final String Restaurant_Name;
-  final String Address;
-  final String City;
-  final String State;
-  final String Zip_Code;
-  final String Email_Address;
-  final String Restaurant_Image_URL;
-  final DateTime End_Date;
+class Restaurant {
+  final int restaurantId;
+  final String restaurantName;
+  final String address;
+  final String city;
+  final String state;
+  final String zipCode;
+  final String emailAddress;
+  final String restaurantImageURL;
+  final DateTime endDate;
 
-  ARestaurant({this.Restaurant_Id, this.Restaurant_Name, this.Address, this.City, this.State, this.Zip_Code, this.Email_Address, this.Restaurant_Image_URL, this.End_Date});
+  Restaurant({
+        this.restaurantId,
+        this.restaurantName,
+        this.address,
+        this.city,
+        this.state,
+        this.zipCode,
+        this.emailAddress,
+        this.restaurantImageURL,
+        this.endDate
+  });
 
 
   /*----------------------------------------------------------------------------
@@ -24,17 +34,17 @@ class ARestaurant {
     The factory keyword is used when implementing a constructor that doesn’t
     always create a new instance of its class.
   ----------------------------------------------------------------------------*/
-  factory ARestaurant.fromJson(Map<String, dynamic> json) {
-    return ARestaurant(
-      Restaurant_Id: json['RestaurantId'],
-      Restaurant_Name: json['RestaurantName'],
-      Address: json['Address'],
-      City: json['City'],
-      State: json['State'],
-      Zip_Code: json['ZipCode'],
-      Email_Address: json['EmailAddress'],
-      Restaurant_Image_URL: json['RestaurantImageURL'],
-      End_Date: json['EndDate'],
+  factory Restaurant.fromJson(Map<String, dynamic> json) {
+    return Restaurant(
+      restaurantId: json['RestaurantId'],
+      restaurantName: json['RestaurantName'],
+      address: json['Address'],
+      city: json['City'],
+      state: json['State'],
+      zipCode: json['ZipCode'],
+      emailAddress: json['EmailAddress'],
+      restaurantImageURL: json['RestaurantImageURL'],
+      endDate: json['EndDate'],
     );
   }
 }
@@ -42,12 +52,12 @@ class ARestaurant {
 class RestaurantListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ARestaurant>>(
+    return FutureBuilder<List<Restaurant>>(
       future: _fetchRestaurants(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<ARestaurant> data = snapshot.data;
-          return _RestaurantsListView(data);
+          List<Restaurant> data = snapshot.data;
+          return _restaurantsListView(data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -57,24 +67,24 @@ class RestaurantListView extends StatelessWidget {
   }
 
   // Call the web service
-  Future<List<ARestaurant>> _fetchRestaurants() async {
+  Future<List<Restaurant>> _fetchRestaurants() async {
 
     final restaurantsListAPIUrl = 'https://restaurants.nicholssoftware.com/api/getrestaurants';
     final response = await http.get(restaurantsListAPIUrl);
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((Restaurant) => new ARestaurant.fromJson(Restaurant)).toList();
+      return jsonResponse.map((restaurant) => new Restaurant.fromJson(restaurant)).toList();
     } else {
       throw Exception('Failed to load Restaurants from API');
     }
   }
 
-  ListView _RestaurantsListView(data) {
+  ListView _restaurantsListView(data) {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return _tile(data[index].Restaurant_Name, data[index].Address, data[index].City, data[index].State, data[index].Zip_Code, data[index].Restaurant_Image_URL);
+          return _tile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL);
         });
   }
 
@@ -93,6 +103,11 @@ class RestaurantListView extends StatelessWidget {
           //color: Colors.green,
         ),
       ),
-      leading: Image.network(restaurantImageURL)
+
+      leading: Image.network(
+        restaurantImageURL,
+        width: 100,
+      )
+
   );
 }
