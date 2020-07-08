@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-//Custom widgets
-import 'RestaurantListView.dart';
+import 'RestaurantList.dart';
 
 void main() {
   runApp(App());
@@ -17,7 +15,8 @@ class App extends StatelessWidget {
           title: Text('Restaurants'),
         ),
         body: Center(
-            child: RestaurantListView()
+            child: RestaurantList()
+            //child: RestaurantMenu()
         ),
       ),
     );

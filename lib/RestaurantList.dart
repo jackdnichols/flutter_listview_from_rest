@@ -1,7 +1,5 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'services/restaurantServices.dart';
 
 class Restaurant {
   final int restaurantId;
@@ -49,15 +47,15 @@ class Restaurant {
   }
 }
 
-class RestaurantListView extends StatelessWidget {
+class RestaurantList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Restaurant>>(
-      future: _fetchRestaurants(),
+      future: Services.fetchRestaurants(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Restaurant> data = snapshot.data;
-          return _restaurantsListView(data);
+          return _listView(data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -66,29 +64,25 @@ class RestaurantListView extends StatelessWidget {
     );
   }
 
-  // Call the web service
-  Future<List<Restaurant>> _fetchRestaurants() async {
-
-    final restaurantsListAPIUrl = 'https://restaurants.nicholssoftware.com/api/getrestaurants';
-    final response = await http.get(restaurantsListAPIUrl);
-
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((restaurant) => new Restaurant.fromJson(restaurant)).toList();
-    } else {
-      throw Exception('Failed to load Restaurants from API');
-    }
-  }
-
-  ListView _restaurantsListView(data) {
+  ListView _listView(data) {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return _tile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL);
+          return new GestureDetector(
+            child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RestaurantMenu(data[index].restaurantId),
+                ),
+              );
+            },
+          );
         });
   }
 
-  ListTile _tile(String restaurantName, String address, String city, String state, String zipCode, String restaurantImageURL) => ListTile(
+  ListTile _listTile(String restaurantName, String address, String city, String state, String zipCode, String restaurantImageURL) => ListTile(
       title: Text(
           restaurantName,
           style: TextStyle(
@@ -110,4 +104,28 @@ class RestaurantListView extends StatelessWidget {
       )
 
   );
+}
+
+class RestaurantMenu extends StatelessWidget {
+
+  final int restaurantId;
+
+  RestaurantMenu(this.restaurantId);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: Column(
+          children: <Widget>[
+            Text('Card $restaurantId'),
+            FlatButton(
+                child: Text("Press Me"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+          ],
+        )
+    );
+  }
 }
