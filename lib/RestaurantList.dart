@@ -68,16 +68,21 @@ class RestaurantList extends StatelessWidget {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return new GestureDetector(
-            child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RestaurantMenu(data[index].restaurantId),
-                ),
-              );
-            },
+          return Container(
+            child: new GestureDetector(
+              child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RestaurantMenu(data[index].restaurantId),
+                  ),
+                );
+              },
+            ),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.black26))
+            ),
           );
         });
   }
@@ -87,14 +92,13 @@ class RestaurantList extends StatelessWidget {
           restaurantName,
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 20,
+            fontSize: 18,
           )),
 
       subtitle: Text(
         city + ' ' + state + ' ' + zipCode,
         style: TextStyle(
-          fontSize: 22,
-          //color: Colors.green,
+          fontSize: 18,
         ),
       ),
 
@@ -117,7 +121,7 @@ class RestaurantMenu extends StatelessWidget {
     return Card(
         child: Column(
           children: <Widget>[
-            Text('Card $restaurantId'),
+            Text('Restaurant Id $restaurantId'),
             FlatButton(
                 child: Text("Press Me"),
                 onPressed: () {
