@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'services/restaurantServices.dart';
+import 'RestaurantList.dart';
+//import 'RestaurantList.dart';
 
 class Restaurant {
   final int restaurantId;
@@ -71,6 +73,15 @@ class RestaurantList extends StatelessWidget {
           return Container(
             child: new GestureDetector(
               child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
+              
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/restaurantmenu',
+                  arguments: data[index].restaurantId,
+                );
+              },
+              
+              /*
               onTap: () {
                 Navigator.push(
                   context,
@@ -79,6 +90,8 @@ class RestaurantList extends StatelessWidget {
                   ),
                 );
               },
+              
+              */
             ),
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.black26))
@@ -110,22 +123,28 @@ class RestaurantList extends StatelessWidget {
   );
 }
 
+
+
 class RestaurantMenu extends StatelessWidget {
 
-  final int restaurantId;
+  //final int restaurantId;
 
-  RestaurantMenu(this.restaurantId);
+  //RestaurantMenu();
 
   @override
   Widget build(BuildContext context) {
     return Card(
         child: Column(
           children: <Widget>[
-            Text('Restaurant Id $restaurantId'),
+            Text('Restaurant Id '),
+           // Text('Restaurant Id $restaurantId'),
             FlatButton(
                 child: Text("Press Me"),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pop();
+
+                  //Navigator.of(context).pushNamed('/restaurantlist');
+                  //Navigator.pop(context);
                 },
               ),
           ],
