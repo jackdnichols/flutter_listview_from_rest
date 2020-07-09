@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'services/restaurantServices.dart';
-import 'RestaurantList.dart';
-//import 'RestaurantList.dart';
 
 class Restaurant {
   final int restaurantId;
@@ -77,7 +75,9 @@ class RestaurantList extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pushNamed(
                   '/restaurantmenu',
-                  arguments: data[index].restaurantId,
+                  arguments: ScreenArguments(
+                      data[index].restaurantId
+                  ),
                 );
               },
               
@@ -123,32 +123,8 @@ class RestaurantList extends StatelessWidget {
   );
 }
 
+class ScreenArguments {
+  final int restautantId;
 
-
-class RestaurantMenu extends StatelessWidget {
-
-  //final int restaurantId;
-
-  //RestaurantMenu();
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-        child: Column(
-          children: <Widget>[
-            Text('Restaurant Id '),
-           // Text('Restaurant Id $restaurantId'),
-            FlatButton(
-                child: Text("Press Me"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-
-                  //Navigator.of(context).pushNamed('/restaurantlist');
-                  //Navigator.pop(context);
-                },
-              ),
-          ],
-        )
-    );
-  }
+  ScreenArguments(this.restautantId);
 }
