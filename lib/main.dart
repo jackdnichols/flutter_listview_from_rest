@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'RestaurantList.dart';
-import 'RestaurantMenu.dart';
+import 'screens/RestaurantList.dart';
+import 'screens/RestaurantMenu.dart';
 
 void main() {
   runApp(App());
