@@ -7,23 +7,19 @@ void main() {
 }
 
 class App extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Job Portal',
       routes: <String, WidgetBuilder>{
-        //'/restaurantlist' : (BuildContext) => new RestaurantList(),
-        '/restaurantmenu' : (BuildContextd) => new RestaurantMenu(),
+        '/restaurantmenu' : (context) => new RestaurantMenu(),
       },
       home: Scaffold(
         appBar: AppBar(
           title: Text('Restaurants'),
         ),
         body: Center(
-            child: RestaurantList()
-
+            child: RestaurantList(),
         ),
       ),
     );

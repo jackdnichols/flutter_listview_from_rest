@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'services/restaurantServices.dart';
+import '../services/restaurantServices.dart';
+import '../ScreenArguments.dart';
 
 class Restaurant {
   final int restaurantId;
@@ -71,27 +72,21 @@ class RestaurantList extends StatelessWidget {
           return Container(
             child: new GestureDetector(
               child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
-              
               onTap: () {
                 Navigator.of(context).pushNamed(
                   '/restaurantmenu',
                   arguments: ScreenArguments(
-                      data[index].restaurantId
+                      data[index].restaurantId,
+                      data[index].restaurantName,
+                      data[index].address,
+                      data[index].city,
+                      data[index].state,
+                      data[index].zipCode,
+                      data[index].emailAddress,
+                      data[index].restaurantImageURL,
                   ),
                 );
               },
-              
-              /*
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RestaurantMenu(data[index].restaurantId),
-                  ),
-                );
-              },
-              
-              */
             ),
             decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.black26))
@@ -119,12 +114,6 @@ class RestaurantList extends StatelessWidget {
         restaurantImageURL,
         width: 100,
       )
-
   );
 }
 
-class ScreenArguments {
-  final int restautantId;
-
-  ScreenArguments(this.restautantId);
-}
