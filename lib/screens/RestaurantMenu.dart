@@ -6,42 +6,42 @@ class RestaurantMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     return MaterialApp(
-      title: 'Job Portal',
+      title: 'Restautant Portal',
       routes: <String, WidgetBuilder>{
         '/restaurantmenu' : (context) => new RestaurantMenu(),
       },
       home: Scaffold(
         appBar: AppBar(
-          title: Text(args.restaurantName),
+          title: Text('Restaurant - ' + args.restaurantName),
         ),
-        body: Container(
+        body: ListView(
+          children: <Widget>[
+             Column(
+              children: <Widget>[
+                Image.network(
+                  args.restaurantImageURL,
+                  fit: BoxFit.fitWidth,
 
-          //child: Center(
-            child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Image.network(
-                      args.restaurantImageURL,
-                      fit: BoxFit.fitWidth,
-                      
-                    ),
-                    Text('Restaurant Id ' + args.restautantId.toString()),
-                    // Text('Restaurant Id $restaurantId'),
-                    FlatButton(
-                      child: Text("Press Me"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                )
-            ),
-          //),
+                ),
+                //Text('Restaurant Id ' + args.restautantId.toString()),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      args.address + ' ' + args.city + ' ' + args.state + ' ' + args.zipCode,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                RaisedButton(
+                  child: Text("Back"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
-
-
-
   }
 }
