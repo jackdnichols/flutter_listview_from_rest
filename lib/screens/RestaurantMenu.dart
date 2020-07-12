@@ -34,7 +34,8 @@ class RestaurantMenu extends StatelessWidget {
                 RaisedButton(
                   child: Text("Back"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/googlemap');
                   },
                 ),
               ],
