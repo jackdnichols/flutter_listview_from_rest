@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +13,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   GoogleMapController mapController;
 
-  GetMyLocation getmylocation = new GetMyLocation();
+  GetMyCurrentLocation getCurrentLocation = new GetMyCurrentLocation();
 
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
@@ -43,58 +41,42 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void getMyLocation () async {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    // return true if location service is enable, false if not
-    bool locationServiceEnable = await geolocator.isLocationServiceEnabled();
-    // position instace
-    Position position;
 
-    // if location service enable get current position
-    if (locationServiceEnable) {
-      // await current position
-      position = await geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
-      // if location service is not enable get last known position
-    } else {
-      // await last known position
-      position = await geolocator.getLastKnownPosition(
-          desiredAccuracy: LocationAccuracy.best);
-    }
-
-    if (position != null) {
-      // fetch weather data with position data
-      print('Latitdue: ' + position.latitude.toString() + ' longnitude: ' + position.longitude.toString());
-      //return Position;
-    }
-  }
 }
 
-class GetMyLocation {
+class GetMyCurrentLocation {
 
-  getMyLocation () async {
+  GetMyCurrentLocation() {
+    currentLocation ();
+  }
+
+  void currentLocation () async {
+
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
     // return true if location service is enable, false if not
     bool locationServiceEnable = await geolocator.isLocationServiceEnabled();
+
     // position instace
-    Position position;
+    //Position position;
+    //print('locationServiceEnable = ' + locationServiceEnable.toString());
 
     // if location service enable get current position
     if (locationServiceEnable) {
       // await current position
-      position = await geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
+      //position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
       // if location service is not enable get last known position
     } else {
       // await last known position
-      position = await geolocator.getLastKnownPosition(
-          desiredAccuracy: LocationAccuracy.best);
+      //position = await geolocator.getLastKnownPosition(desiredAccuracy: LocationAccuracy.best);
     }
 
-    if (position != null) {
+   // if (position != null) {
       // fetch weather data with position data
-      print('Latitdue: ' + position.latitude.toString() + ' longnitude: ' + position.longitude.toString());
+      //print('Latitdue: ' + position.latitude.toString() + ' longnitude: ' + position.longitude.toString());
       //return Position;
-    }
+    //}
+
   }
 }
