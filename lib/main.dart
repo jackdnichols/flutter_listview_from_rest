@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       title: 'Job Portal',
       routes: <String, WidgetBuilder>{
         '/restaurantmenu' : (context) => new RestaurantMenu(),
-        '/googlemap' : (context) => new MyApp(),
+        '/googlemap' : (context) => new MapPage(),
       },
       home: Scaffold(
         appBar: AppBar(
