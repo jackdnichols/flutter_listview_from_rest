@@ -1,82 +1,86 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() => runApp(MyApp());
+Completer<GoogleMapController> _controller = Completer();
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  GoogleMapController mapController;
-
-  GetMyCurrentLocation getCurrentLocation = new GetMyCurrentLocation();
-
-
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Restaurant Map'),
-          backgroundColor: Colors.green[700],
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Restaurant Map"),
+      ),
+      body: Stack(
+        children: <Widget>[_googleMaps(context)],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _goToNextLocation,
+        label: Text('To the Next Location'),
+        icon: Icon(Icons.directions_boat),
       ),
     );
   }
-
-
 }
 
-class GetMyCurrentLocation {
-
-  GetMyCurrentLocation() {
-    currentLocation ();
-  }
-
-  void currentLocation () async {
-
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    // return true if location service is enable, false if not
-    bool locationServiceEnable = await geolocator.isLocationServiceEnabled();
-
-    // position instace
-    //Position position;
-    //print('locationServiceEnable = ' + locationServiceEnable.toString());
-
-    // if location service enable get current position
-    if (locationServiceEnable) {
-      // await current position
-      //position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-      // if location service is not enable get last known position
-    } else {
-      // await last known position
-      //position = await geolocator.getLastKnownPosition(desiredAccuracy: LocationAccuracy.best);
-    }
-
-   // if (position != null) {
-      // fetch weather data with position data
-      //print('Latitdue: ' + position.latitude.toString() + ' longnitude: ' + position.longitude.toString());
-      //return Position;
-    //}
-
-  }
+Widget _googleMaps(BuildContext context) {
+  return Container(
+    height: MediaQuery.of(context).size.height,
+    width: MediaQuery.of(context).size.width,
+    child: GoogleMap(
+      mapType: MapType.terrain,
+      initialCameraPosition:
+      CameraPosition(target: LatLng(15.841461, 74.512202), zoom: 18),
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
+      markers: {belgaum},
+    ),
+  );
 }
 
+Marker belgaum = Marker(
+  markerId: MarkerId("Belgaum"),
+  position: LatLng(15.841461, 74.512202),
+  infoWindow: InfoWindow(title: "Belgaum"),
+  icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+);
+
+Future<void> _goToNextLocation() async {
+  final GoogleMapController controller = await _controller.future;
+  var currentLocation = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
+  controller.animateCamera(
+    CameraUpdate.newCameraPosition(
+      CameraPosition(
+          target: LatLng(37.43296265331129, -122.08832357078792),
+          zoom: 19.151926040649414,
+          tilt: 59.440717697143555,
+          bearing: 192.8334901395799),
+    ),
+  );
+}
