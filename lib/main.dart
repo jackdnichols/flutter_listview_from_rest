@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'route_generator.dart';
 import 'screens/restaurant_list.dart';
-import 'screens/restaurant_menu.dart';
-import 'google_map.dart';
 
 void main() {
   runApp(App());
@@ -12,10 +11,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Job Portal',
-      routes: <String, WidgetBuilder>{
-        '/restaurantmenu' : (context) => new RestaurantMenu(),
-        '/googlemap' : (context) => new MapPage(),
-      },
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Restaurants'),

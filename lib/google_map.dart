@@ -94,6 +94,9 @@ class MapPageState extends State<MapPage> {
       );
     }
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Restaurant Map'),
+      ),
       body: Stack(
         children: <Widget>[
           GoogleMap(

@@ -1,6 +1,75 @@
 import 'package:flutter/material.dart';
 import '../services/restaurantServices.dart';
-import '../screen_arguments.dart';
+import '../restaurant_menu_arguments.dart';
+
+class RestaurantList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Restaurant>>(
+      future: Services.fetchRestaurants(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Restaurant> data = snapshot.data;
+          return _listView(data);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return CircularProgressIndicator();
+      },
+    );
+  }
+
+  ListView _listView(data) {
+    return ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return Container(
+            child: new GestureDetector(
+              child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/restaurantmenu',
+                  arguments: RestaurantMenuArguments(
+                    data[index].restaurantId,
+                    data[index].restaurantName,
+                    data[index].address,
+                    data[index].city,
+                    data[index].state,
+                    data[index].zipCode,
+                    data[index].emailAddress,
+                    data[index].restaurantImageURL,
+                  ),
+                );
+              },
+            ),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.black26))
+            ),
+          );
+        });
+  }
+
+  ListTile _listTile(String restaurantName, String address, String city, String state, String zipCode, String restaurantImageURL) => ListTile(
+      title: Text(
+          restaurantName,
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+          )),
+
+      subtitle: Text(
+        city + ' ' + state + ' ' + zipCode,
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      ),
+
+      leading: Image.network(
+        restaurantImageURL,
+        width: 100,
+      )
+  );
+}
 
 class Restaurant {
   final int restaurantId;
@@ -48,72 +117,5 @@ class Restaurant {
   }
 }
 
-class RestaurantList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Restaurant>>(
-      future: Services.fetchRestaurants(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Restaurant> data = snapshot.data;
-          return _listView(data);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return CircularProgressIndicator();
-      },
-    );
-  }
 
-  ListView _listView(data) {
-    return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return Container(
-            child: new GestureDetector(
-              child: _listTile(data[index].restaurantName, data[index].address, data[index].city, data[index].state, data[index].zipCode, data[index].restaurantImageURL),
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  '/restaurantmenu',
-                  arguments: ScreenArguments(
-                      data[index].restaurantId,
-                      data[index].restaurantName,
-                      data[index].address,
-                      data[index].city,
-                      data[index].state,
-                      data[index].zipCode,
-                      data[index].emailAddress,
-                      data[index].restaurantImageURL,
-                  ),
-                );
-              },
-            ),
-            decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.black26))
-            ),
-          );
-        });
-  }
-
-  ListTile _listTile(String restaurantName, String address, String city, String state, String zipCode, String restaurantImageURL) => ListTile(
-      title: Text(
-          restaurantName,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
-          )),
-
-      subtitle: Text(
-        city + ' ' + state + ' ' + zipCode,
-        style: TextStyle(
-          fontSize: 18,
-        ),
-      ),
-
-      leading: Image.network(
-        restaurantImageURL,
-        width: 100,
-      )
-  );
-}
 

@@ -1,5 +1,5 @@
 
-class ScreenArguments {
+class RestaurantMenuArguments {
   final int restautantId;
   final String restaurantName;
   final String address;
@@ -9,7 +9,7 @@ class ScreenArguments {
   final String emailAddress;
   final String restaurantImageURL;
 
-  ScreenArguments(
+  RestaurantMenuArguments(
       this.restautantId,
       this.restaurantName,
       this.address,

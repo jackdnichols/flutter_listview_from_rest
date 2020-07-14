@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
-import '../screen_arguments.dart';
+import '../restaurant_menu_arguments.dart';
 
 class RestaurantMenu extends StatelessWidget {
+
+  final RestaurantMenuArguments restaurantMenuArgs;
+
+  RestaurantMenu({
+    this.restaurantMenuArgs
+  });
+
   @override
   Widget build(BuildContext context) {
-    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
-    return MaterialApp(
-      title: 'Restautant Portal',
-      routes: <String, WidgetBuilder>{
-        '/restaurantmenu' : (context) => new RestaurantMenu(),
-      },
-      home: Scaffold(
+    //final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+    return Scaffold(
         appBar: AppBar(
-          title: Text('Restaurant - ' + args.restaurantName),
+          title: Text('Restaurant - ' + restaurantMenuArgs.restaurantName),
         ),
         body: ListView(
           children: <Widget>[
              Column(
               children: <Widget>[
                 Image.network(
-                  args.restaurantImageURL,
+                  restaurantMenuArgs.restaurantImageURL,
                   fit: BoxFit.fitWidth,
 
                 ),
@@ -27,12 +29,12 @@ class RestaurantMenu extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      args.address + ' ' + args.city + ' ' + args.state + ' ' + args.zipCode,
+                      restaurantMenuArgs.address + ' ' + restaurantMenuArgs.city + ' ' + restaurantMenuArgs.state + ' ' + restaurantMenuArgs.zipCode,
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
                 RaisedButton(
-                  child: Text("Back"),
+                  child: Text("Map"),
                   onPressed: () {
                     //Navigator.of(context).pop();
                     Navigator.of(context).pushNamed('/googlemap');
@@ -42,7 +44,7 @@ class RestaurantMenu extends StatelessWidget {
             )
           ],
         ),
-      ),
+
     );
   }
 }
