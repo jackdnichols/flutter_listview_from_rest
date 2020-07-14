@@ -40,6 +40,18 @@ class RestaurantMenu extends StatelessWidget {
                     Navigator.of(context).pushNamed('/googlemap');
                   },
                 ),
+                RaisedButton(
+                  child: Text('Test Directions'),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/testpage');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('More Directions'),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/mapanddirections');
+                  },
+                ),
               ],
             )
           ],
