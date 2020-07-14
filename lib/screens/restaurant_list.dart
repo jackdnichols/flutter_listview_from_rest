@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/restaurantServices.dart';
-import '../ScreenArguments.dart';
+import '../screen_arguments.dart';
 
 class Restaurant {
   final int restaurantId;

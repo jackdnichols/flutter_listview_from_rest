@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/RestaurantList.dart';
-import 'screens/RestaurantMenu.dart';
-import 'GoogleMap.dart';
+import 'screens/restaurant_list.dart';
+import 'screens/restaurant_menu.dart';
+import 'google_map.dart';
 
 void main() {
   runApp(App());

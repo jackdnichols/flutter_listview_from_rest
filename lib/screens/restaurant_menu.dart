@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../ScreenArguments.dart';
+import '../screen_arguments.dart';
 
 class RestaurantMenu extends StatelessWidget {
   @override

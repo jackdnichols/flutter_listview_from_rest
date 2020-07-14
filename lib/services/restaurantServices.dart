@@ -1,4 +1,4 @@
-import '../screens/RestaurantList.dart';
+import '../screens/restaurant_list.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
