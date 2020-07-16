@@ -53,10 +53,10 @@ class RestaurantMenu extends StatelessWidget {
                     Navigator.of(context).pushNamed(
                       '/mapdirections',
                       arguments: MapLatLngProvider(
-                          43.3233,    // originLongitude
-                          -83.2342,   // originLongitude
-                          43.3222,    // destinationLatitude
-                          -83.221     // destinationLongitude
+                          42.150520,    // originLongitude
+                          -84.524340,   // originLongitude
+                          42.458530,    // destinationLatitude
+                          -83.167760     // destinationLongitude
                       ),
                     );
                   },

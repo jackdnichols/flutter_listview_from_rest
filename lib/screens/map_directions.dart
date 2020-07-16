@@ -18,12 +18,10 @@ LatLng DEST_LOCATION = LatLng(43.45979, -83.18197);
 class MapDirections extends StatefulWidget {
 
   final MapLatLngProvider mapRouteLatLngArgs;
-
-  MapDirections({this.mapRouteLatLngArgs});
-
-  //MapLatLngProvider get mapLatLngArgs => this.mapRouteLatLngArgs;
-  // MapLatLngProvider v = MapDirections().mapLatLngArgs;
-  //print(v.destinationLongitude);
+  MapDirections({this.mapRouteLatLngArgs}){
+    SOURCE_LOCATION = LatLng(mapRouteLatLngArgs.originLatitude, mapRouteLatLngArgs.originLongitude);
+    DEST_LOCATION = LatLng(mapRouteLatLngArgs.destinationLatitude, mapRouteLatLngArgs.destinationLongitude);
+  }
 
   @override
   State<StatefulWidget> createState() => MapDirectionsState();
@@ -87,7 +85,14 @@ class MapDirectionsState extends State<MapDirections> {
   @override
   Widget build(BuildContext context) {
 
-    final MapLatLngProvider mapLatLngProvider = ModalRoute.of(context).settings.arguments;
+    //final MapLatLngProvider mapLatLngProvider = ModalRoute.of(context).settings.arguments;
+    /*
+    print('originLatitude: ' + mapLatLngProvider.originLatitude);
+    print('originLongitude: ' + mapLatLngProvider.originLongitude);
+    print('destinationLatitude: ' + mapLatLngProvider.destinationLatitude);
+    print('destinationLongitude: ' + mapLatLngProvider.destinationLongitude);
+
+     */
 
    // This blows up
   //  var asdf = Provider.of<SettingsProvider>(context);
