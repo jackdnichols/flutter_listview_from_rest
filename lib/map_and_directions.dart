@@ -23,7 +23,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final Set<Polyline> polyline = {};
 
-  GoogleMapController _controller;
+  //GoogleMapController _controller;
   List<LatLng> routeCoords;
   GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: 'AIzaSyAMrVirJth-x5uKSiXOITExOud-99txpN0');
 
@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
     if(permissions[0].permissionStatus == PermissionStatus.notAgain) {
-      var askpermissions = await Permission.requestPermissions([PermissionName.Location]);
+      //var askpermissions = await Permission.requestPermissions([PermissionName.Location]);
     } else {
       routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
           origin: LatLng(40.6782, -73.9442),
@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void onMapCreated(GoogleMapController controller) {
       setState(() {
-        _controller = controller;
+        //_controller = controller;
         
         polyline.add(Polyline(
           polylineId: PolylineId('route1'),

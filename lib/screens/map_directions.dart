@@ -2,22 +2,21 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_listview_rest/providers/map_latlng_provider.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 
 const double CAMERA_ZOOM = 13;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
-LatLng SOURCE_LOCATION = LatLng(43.150520,-84.524340);
-LatLng DEST_LOCATION = LatLng(43.45979, -83.18197);
+LatLng sourceLocation = LatLng(43.150520,-84.524340);
+LatLng destinationLocation = LatLng(43.45979, -83.18197);
 
 class MapDirections extends StatefulWidget {
 
   final MapLatLngProvider mapRouteLatLngArgs;
   MapDirections({this.mapRouteLatLngArgs}){
-    SOURCE_LOCATION = LatLng(mapRouteLatLngArgs.originLatitude, mapRouteLatLngArgs.originLongitude);
-    DEST_LOCATION = LatLng(mapRouteLatLngArgs.destinationLatitude, mapRouteLatLngArgs.destinationLongitude);
+    sourceLocation = LatLng(mapRouteLatLngArgs.originLatitude, mapRouteLatLngArgs.originLongitude);
+    destinationLocation = LatLng(mapRouteLatLngArgs.destinationLatitude, mapRouteLatLngArgs.destinationLongitude);
   }
 
   @override
@@ -84,7 +83,7 @@ class MapDirectionsState extends State<MapDirections> {
         zoom: CAMERA_ZOOM,
         bearing: CAMERA_BEARING,
         tilt: CAMERA_TILT,
-        target: SOURCE_LOCATION
+        target: sourceLocation
     );
     return Scaffold(
         appBar: AppBar(
@@ -117,13 +116,13 @@ class MapDirectionsState extends State<MapDirections> {
       // source pin
       _markers.add(Marker(
           markerId: MarkerId('sourcePin'),
-          position: SOURCE_LOCATION,
+          position: sourceLocation,
           icon: sourceIcon
       ));
       // destination pin
       _markers.add(Marker(
           markerId: MarkerId('destPin'),
-          position: LatLng(DEST_LOCATION.latitude, DEST_LOCATION.longitude), //DEST_LOCATION,
+          position: LatLng(destinationLocation.latitude, destinationLocation.longitude), //DEST_LOCATION,
           icon: destinationIcon
       ));
     });
@@ -132,10 +131,10 @@ class MapDirectionsState extends State<MapDirections> {
     List<PointLatLng> result = await
     polylinePoints?.getRouteBetweenCoordinates(
         googleAPIKey,
-        SOURCE_LOCATION.latitude,
-        SOURCE_LOCATION.longitude,
-        DEST_LOCATION.latitude,
-        DEST_LOCATION.longitude);
+        sourceLocation.latitude,
+        sourceLocation.longitude,
+        destinationLocation.latitude,
+        destinationLocation.longitude);
     if(result.isNotEmpty){
       // loop through all PointLatLng points and convert them
       // to a list of LatLng, required by the Polyline

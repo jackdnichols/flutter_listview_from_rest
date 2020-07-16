@@ -10,7 +10,7 @@ const double CAMERA_ZOOM = 16;
 const double CAMERA_TILT = 80;
 const double CAMERA_BEARING = 30;
 const LatLng SOURCE_LOCATION = LatLng(42.150520,-84.524340);
-LatLng DEST_LOCATION = LatLng(37.335685,-122.0605916);
+LatLng destationLocation = LatLng(37.335685,-122.0605916);
 
 class MapPage extends StatefulWidget {
 
@@ -26,7 +26,7 @@ class MapPage extends StatefulWidget {
 setDestination() async
 {
   List<Placemark> placemark = await Geolocator().placemarkFromAddress(restaurantMenuArgs.address + ' ' + restaurantMenuArgs.city + ' ' + restaurantMenuArgs.state + ' ' + restaurantMenuArgs.zipCode);
-  DEST_LOCATION = LatLng(placemark[0].position.latitude, placemark[0].position.longitude);
+  destationLocation = LatLng(placemark[0].position.latitude, placemark[0].position.longitude);
  // print (placemark[0].position.latitude);
  // print (placemark[0].position.longitude);
 }
@@ -89,8 +89,8 @@ class MapPageState extends State<MapPage> {
 
     // hard-coded destination for this example
     destinationLocation = LocationData.fromMap({
-      "latitude":  DEST_LOCATION.latitude,
-      "longitude": DEST_LOCATION.longitude
+      "latitude":  destationLocation.latitude,
+      "longitude": destationLocation.longitude
     });
   }
 
