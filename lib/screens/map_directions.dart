@@ -1,42 +1,44 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_listview_rest/providers/map_latlng_provider.dart';
+import 'package:flutter_listview_rest/settings_provider.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const double CAMERA_ZOOM = 13;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 LatLng SOURCE_LOCATION = LatLng(43.150520,-84.524340);
-LatLng DEST_LOCATION = LatLng(42.45979, -83.18197);
-
-
-
-Future<void> _getCurrentLocation () async {
-  List<Placemark> placemark = await Geolocator().placemarkFromAddress("10371 Corning Oak Park Michigan");
- // print (placemark[0].position.latitude);
- //print (placemark[0].position.longitude);
-
-  //SOURCE_LOCATION = LatLng(placemark[0].position.latitude, placemark[0].position.longitude);
-  //DEST_LOCATION = LatLng(placemark[0].position.latitude, placemark[0].position.longitude);
-
-  LatLng currentLatLng;
-
-  setState(){
-    SOURCE_LOCATION = LatLng(placemark[0].position.latitude, placemark[0].position.longitude);
-  }
-
-
-  return currentLatLng;
-}
+LatLng DEST_LOCATION = LatLng(43.45979, -83.18197);
 
 
 class MapDirections extends StatefulWidget {
+
+  final MapLatLngProvider mapRouteLatLngArgs;
+
+  MapDirections({this.mapRouteLatLngArgs});
+
+  //MapLatLngProvider get mapLatLngArgs => this.mapRouteLatLngArgs;
+  // MapLatLngProvider v = MapDirections().mapLatLngArgs;
+  //print(v.destinationLongitude);
+
   @override
   State<StatefulWidget> createState() => MapDirectionsState();
 }
+
 class MapDirectionsState extends State<MapDirections> {
+  /*
+  double originLatitude = mapRouteLatLngArgs.originLatitude;
+  static double originLongitude = this.mapRouteLatLngArgs.originLongitude;
+  static double destinationLatitude = this.mapRouteLatLngArgs.destinationLatitude;
+  static double destinationLongitude = this.mapRouteLatLngArgs.destinationLongitude;
+   */
+
+ // static final SOURCE_LOCATION = LatLng(originLatitude, originLongitude);
+
   Completer<GoogleMapController> _controller = Completer();
   // this set will hold my markers
   Set<Marker> _markers = {};
@@ -47,7 +49,7 @@ class MapDirectionsState extends State<MapDirections> {
   // this is the key object - the PolylinePoints
   // which generates every polyline between start and finish
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPIKey = 'AIzaSyBKTJbO-fbpuUNm7kx8oslvr9b-XD7up6g';
+  String googleAPIKey = 'AIzaSyAMrVirJth-x5uKSiXOITExOud-99txpN0';
   // for my custom icons
   BitmapDescriptor sourceIcon;
   BitmapDescriptor destinationIcon;
@@ -64,11 +66,43 @@ class MapDirectionsState extends State<MapDirections> {
         ImageConfiguration(devicePixelRatio: 2.5),
         'assets/destination_map_marker.jpg');
   }
+
+  Future<void> _getCurrentLocation() async {
+    // this.restaurantMenuArgs.address + ' ' + this.restaurantMenuArgs.city + ' ' + this.restaurantMenuArgs.state + ' ' + this.restaurantMenuArgs.zipCode
+    List<Placemark> placemarkSourceLocation = await Geolocator().placemarkFromAddress("300 Union st. Horton Michigan 49246");
+    List<Placemark> placemarkDestinationLocation = await Geolocator().placemarkFromAddress("10371 corning oak park michigan 48237");
+
+    print ('placemarkSourceLocation latitude: ' + placemarkSourceLocation[0].position.latitude.toString());
+    print ('placemarkSourceLocation longitude: ' + placemarkSourceLocation[0].position.longitude.toString());
+
+    print ('placemarkDestinationLocation latitude: ' + placemarkDestinationLocation[0].position.latitude.toString());
+    print ('placemarkDestinationLocation longitude: ' + placemarkDestinationLocation[0].position.longitude.toString());
+
+    setState(){
+      SOURCE_LOCATION = LatLng(placemarkSourceLocation[0].position.latitude, placemarkSourceLocation[0].position.longitude);
+      DEST_LOCATION = LatLng(placemarkDestinationLocation[0].position.latitude, placemarkDestinationLocation[0].position.longitude);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
-   // print('latitude: ' + SOURCE_LOCATION.latitude.toString());
-    //print('longitude: ' + SOURCE_LOCATION.longitude.toString());
+    final MapLatLngProvider mapLatLngProvider = ModalRoute.of(context).settings.arguments;
+
+   // This blows up
+  //  var asdf = Provider.of<SettingsProvider>(context);
+    //print('This blasted thing finally passed a parameter!' + asdf.originLongitude.toString());
+
+/*
+    if (mapRouteLatLngArgs != null) {
+      print('originLatitude: ' + mapRouteLatLngArgs.originLatitude.toString());
+      print('originLongitude: ' + mapRouteLatLngArgs.originLongitude.toString());
+      print('destinationLatitude: ' +
+          mapRouteLatLngArgs.destinationLatitude.toString());
+      print('destinationLongitude: ' +
+          mapRouteLatLngArgs.destinationLongitude.toString());
+    }
+*/
 
     CameraPosition initialLocation = CameraPosition(
         zoom: CAMERA_ZOOM,
@@ -81,20 +115,19 @@ class MapDirectionsState extends State<MapDirections> {
         title: Text('Restaurant Map'),
     ),
     body: Stack(
-    children: <Widget>[
-      GoogleMap(
-        myLocationEnabled: true,
-        compassEnabled: true,
-        tiltGesturesEnabled: false,
-        markers: _markers,
-        polylines: _polylines,
-        mapType: MapType.normal,
-        initialCameraPosition: initialLocation,
-        onMapCreated: onMapCreated
-    ),
-        ]
+      children: <Widget>[
+        GoogleMap(
+            myLocationEnabled: true,
+            compassEnabled: true,
+            tiltGesturesEnabled: false,
+            markers: _markers,
+            polylines: _polylines,
+            mapType: MapType.normal,
+            initialCameraPosition: initialLocation,
+            onMapCreated: onMapCreated
+        ),
+      ]
     ));
-
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -102,6 +135,7 @@ class MapDirectionsState extends State<MapDirections> {
     setMapPins();
     setPolylines();
   }
+
   void setMapPins() {
     setState(() {
       // source pin
@@ -113,7 +147,7 @@ class MapDirectionsState extends State<MapDirections> {
       // destination pin
       _markers.add(Marker(
           markerId: MarkerId('destPin'),
-          position: LatLng(43, -84), //DEST_LOCATION,
+          position: LatLng(DEST_LOCATION.latitude, DEST_LOCATION.longitude), //DEST_LOCATION,
           icon: destinationIcon
       ));
     });

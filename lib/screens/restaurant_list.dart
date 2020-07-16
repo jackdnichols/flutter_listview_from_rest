@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/restaurantServices.dart';
-import '../restaurant_menu_arguments.dart';
+import '../providers/restaurant_menu_provider.dart';
 
 class RestaurantList extends StatelessWidget {
   @override
@@ -29,7 +29,7 @@ class RestaurantList extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pushNamed(
                   '/restaurantmenu',
-                  arguments: RestaurantMenuArguments(
+                  arguments: RestaurantMenuProvider(
                     data[index].restaurantId,
                     data[index].restaurantName,
                     data[index].address,

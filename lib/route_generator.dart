@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_listview_rest/initial_location_map.dart';
+import 'package:flutter_listview_rest/providers/map_latlng_provider.dart';
+import 'file:///E:/ProjectsGIT/flutter_listview_from_rest/lib/screens/map_directions.dart';
 import 'screens/restaurant_list.dart';
 import 'screens/restaurant_menu.dart';
 import 'continuous_tracking_map.dart';
-import 'restaurant_menu_arguments.dart';
+import 'providers/restaurant_menu_provider.dart';
 import 'map_and_directions.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
-    final pageArgs = settings.arguments;
+    final routeSettingArgs = settings.arguments;
 
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => RestaurantList());
       case '/restaurantmenu':
         // Validation of correct data type
-        if (pageArgs is RestaurantMenuArguments) {
+        if (routeSettingArgs is RestaurantMenuProvider) {
           return MaterialPageRoute(
             builder: (_) => RestaurantMenu(
-              restaurantMenuArgs: pageArgs,
+              restaurantMenuArgs: routeSettingArgs,
             ),
           );
         }
@@ -27,8 +28,17 @@ class RouteGenerator {
       case '/googlemap':
         return MaterialPageRoute(builder: (_) => MapPage());
 
-      case '/testpage':
-        return MaterialPageRoute(builder: (_) => MapDirections());
+      case '/mapdirections':
+        // Validation of correct data type
+        if (routeSettingArgs != null && routeSettingArgs is MapLatLngProvider) {
+          return MaterialPageRoute(
+            builder: (_) => MapDirections(
+              mapRouteLatLngArgs: routeSettingArgs,
+            ),
+          );
+        }
+        break;
+       // return MaterialPageRoute(builder: (_) => MapDirections());
 
       case '/mapanddirections':
         return MaterialPageRoute(builder: (_) => MapAndDirections());

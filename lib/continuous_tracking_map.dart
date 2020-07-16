@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'restaurant_menu_arguments.dart';
+import 'providers/restaurant_menu_provider.dart';
 
 const double CAMERA_ZOOM = 16;
 const double CAMERA_TILT = 80;
@@ -14,7 +14,7 @@ LatLng DEST_LOCATION = LatLng(37.335685,-122.0605916);
 
 class MapPage extends StatefulWidget {
 
-  final RestaurantMenuArguments restaurantMenuArgs;
+  final RestaurantMenuProvider restaurantMenuArgs;
 
   MapPage({
     this.restaurantMenuArgs
@@ -39,7 +39,7 @@ class MapPageState extends State<MapPage> {
   Set<Polyline> _polylines = Set<Polyline>();
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints;
-  String googleAPIKey = 'AIzaSyBKTJbO-fbpuUNm7kx8oslvr9b-XD7up6g';
+  String googleAPIKey = 'AIzaSyAMrVirJth-x5uKSiXOITExOud-99txpN0';
   // for my custom marker pins
   BitmapDescriptor sourceIcon;
   BitmapDescriptor destinationIcon;

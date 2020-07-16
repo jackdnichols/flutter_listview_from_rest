@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
-import '../restaurant_menu_arguments.dart';
+import 'package:flutter_listview_rest/providers/map_latlng_provider.dart';
+import '../providers/restaurant_menu_provider.dart';
+import 'package:flutter_listview_rest/settings_provider.dart';
 
 class RestaurantMenu extends StatelessWidget {
 
-  final RestaurantMenuArguments restaurantMenuArgs;
+  final RestaurantMenuProvider restaurantMenuArgs;
+  RestaurantMenu({this.restaurantMenuArgs});
 
-  RestaurantMenu({
-    this.restaurantMenuArgs
-  });
+  //MapLatLngProvider mapRouteLatLng;
 
   @override
   Widget build(BuildContext context) {
+
+    //SettingsProvider settingsProvider = new SettingsProvider();
+    //settingsProvider.setOriginLatitude(123.46);
+
+    //var settingsProvider = Provider.of<SettingsProvider>(context);
     //final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Restaurant - ' + restaurantMenuArgs.restaurantName),
@@ -41,9 +48,17 @@ class RestaurantMenu extends StatelessWidget {
                   },
                 ),
                 RaisedButton(
-                  child: Text('Test Directions'),
+                  child: Text('Map Directions'),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/testpage');
+                    Navigator.of(context).pushNamed(
+                      '/mapdirections',
+                      arguments: MapLatLngProvider(
+                          43.3233,    // originLongitude
+                          -83.2342,   // originLongitude
+                          43.3222,    // destinationLatitude
+                          -83.221     // destinationLongitude
+                      ),
+                    );
                   },
                 ),
                 RaisedButton(

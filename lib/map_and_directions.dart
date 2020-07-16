@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   GoogleMapController _controller;
   List<LatLng> routeCoords;
-  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: 'AIzaSyBKTJbO-fbpuUNm7kx8oslvr9b-XD7up6g');
+  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: 'AIzaSyAMrVirJth-x5uKSiXOITExOud-99txpN0');
 
   getSomePoints() async {
 
