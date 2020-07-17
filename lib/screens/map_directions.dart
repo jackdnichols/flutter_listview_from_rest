@@ -54,31 +54,6 @@ class MapDirectionsState extends State<MapDirections> {
 
   @override
   Widget build(BuildContext context) {
-
-    //final MapLatLngProvider mapLatLngProvider = ModalRoute.of(context).settings.arguments;
-    /*
-    print('originLatitude: ' + mapLatLngProvider.originLatitude);
-    print('originLongitude: ' + mapLatLngProvider.originLongitude);
-    print('destinationLatitude: ' + mapLatLngProvider.destinationLatitude);
-    print('destinationLongitude: ' + mapLatLngProvider.destinationLongitude);
-
-     */
-
-   // This blows up
-  //  var asdf = Provider.of<SettingsProvider>(context);
-    //print('This blasted thing finally passed a parameter!' + asdf.originLongitude.toString());
-
-/*
-    if (mapRouteLatLngArgs != null) {
-      print('originLatitude: ' + mapRouteLatLngArgs.originLatitude.toString());
-      print('originLongitude: ' + mapRouteLatLngArgs.originLongitude.toString());
-      print('destinationLatitude: ' +
-          mapRouteLatLngArgs.destinationLatitude.toString());
-      print('destinationLongitude: ' +
-          mapRouteLatLngArgs.destinationLongitude.toString());
-    }
-*/
-
     CameraPosition initialLocation = CameraPosition(
         zoom: CAMERA_ZOOM,
         bearing: CAMERA_BEARING,
@@ -92,6 +67,7 @@ class MapDirectionsState extends State<MapDirections> {
     body: Stack(
       children: <Widget>[
         GoogleMap(
+            mapToolbarEnabled: true,
             myLocationEnabled: true,
             compassEnabled: true,
             tiltGesturesEnabled: false,
