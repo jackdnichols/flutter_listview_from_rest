@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_listview_rest/providers/map_latlng_provider.dart';
-import 'file:///E:/ProjectsGIT/flutter_listview_from_rest/lib/screens/map_directions.dart';
+import 'screens/map_directions.dart';
 import 'screens/restaurant_list.dart';
 import 'screens/restaurant_menu.dart';
 import 'continuous_tracking_map.dart';
