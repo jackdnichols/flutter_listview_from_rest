@@ -17,7 +17,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RestaurantList());
       case '/restaurantmenu':
         // Validation of correct data type
-        if (routeSettingArgs is RestaurantMenuProvider) {
+        if (routeSettingArgs != null && routeSettingArgs is RestaurantMenuProvider) {
           return MaterialPageRoute(
             builder: (_) => RestaurantMenu(
               restaurantMenuArgs: routeSettingArgs,
