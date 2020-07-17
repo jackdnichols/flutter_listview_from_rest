@@ -4,10 +4,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../providers/restaurant_menu_provider.dart';
 
-class RestaurantMenu extends StatelessWidget {
+class RestaurantMenu extends StatefulWidget {
 
   final RestaurantMenuProvider restaurantMenuArgs;
   RestaurantMenu({this.restaurantMenuArgs});
+
+  @override
+  _RestaurantMenuState createState() => _RestaurantMenuState();
+}
+
+class _RestaurantMenuState extends State<RestaurantMenu> {
   MapLatLngProvider _originDestinationLatLng;
 
   @override
@@ -27,21 +33,21 @@ class RestaurantMenu extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Restaurant - ' + restaurantMenuArgs.restaurantName),
+          title: Text('Restaurant - ' + widget.restaurantMenuArgs.restaurantName),
         ),
         body: ListView(
           children: <Widget>[
              Column(
               children: <Widget>[
                 Image.network(
-                  restaurantMenuArgs.restaurantImageURL,
+                  widget.restaurantMenuArgs.restaurantImageURL,
                   fit: BoxFit.fitWidth,
                 ),
                 //Text('Restaurant Id ' + args.restautantId.toString()),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      restaurantMenuArgs.address + ' ' + restaurantMenuArgs.city + ' ' + restaurantMenuArgs.state + ' ' + restaurantMenuArgs.zipCode,
+                      widget.restaurantMenuArgs.address + ' ' + widget.restaurantMenuArgs.city + ' ' + widget.restaurantMenuArgs.state + ' ' + widget.restaurantMenuArgs.zipCode,
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -72,10 +78,10 @@ class RestaurantMenu extends StatelessWidget {
 
     List<Placemark> placemarkDestinationLocation =
       await Geolocator().placemarkFromAddress(
-        restaurantMenuArgs.address + ' ' +
-        restaurantMenuArgs.city + ' ' +
-        restaurantMenuArgs.state + ' ' +
-        restaurantMenuArgs.zipCode);
+        widget.restaurantMenuArgs.address + ' ' +
+        widget.restaurantMenuArgs.city + ' ' +
+        widget.restaurantMenuArgs.state + ' ' +
+        widget.restaurantMenuArgs.zipCode);
 
     LatLng originLatLng = new LatLng(position.latitude, position.longitude);
     LatLng destinationLatLng =
